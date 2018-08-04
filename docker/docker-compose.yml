@@ -1,0 +1,12 @@
+version: '3'
+services:
+  config-server:
+      image: fg78nc/m-config-server:step1
+      ports:
+        - "8888:8888"
+      networks:
+        - public
+      deploy:
+        replicas: 1
+        restart_policy:
+          condition: on-failure

@@ -1,0 +1,18 @@
+management:
+  endpoint:
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/fg78nc/m-config-server-repo
+          search-paths: customer-service, shipping-service
+        encrypt:
+          enabled: false
+      enabled: true
