@@ -13,6 +13,7 @@
         <module>eureka-server</module>
         <module>customer-service</module>
         <module>config-server</module>
+        <module>shipping-service</module>
     </modules>
 
 </project>
