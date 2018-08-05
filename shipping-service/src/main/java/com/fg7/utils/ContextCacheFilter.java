@@ -20,7 +20,7 @@ class ContextCacheFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = HttpServletRequest.class.cast(request);
         String tokenId = httpServletRequest.getHeader(ContextCacheConstants.TOKEN_ID);
-        ContextCacheHolder.getTLContext().setTokenId(tokenId);
+        ContextCacheHolder.getCache().setTokenId(tokenId);
         log.info("Saved token_id {} into context cache", tokenId);
         chain.doFilter(request, response);
     }

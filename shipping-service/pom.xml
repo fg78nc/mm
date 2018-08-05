@@ -96,6 +96,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-rsa</artifactId>
         </dependency>
@@ -104,6 +109,8 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
+
+
 
         <!--<dependency>-->
         <!--<groupId>com.fasterxml.jackson.core</groupId>-->

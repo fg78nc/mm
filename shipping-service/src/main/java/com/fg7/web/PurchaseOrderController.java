@@ -3,7 +3,6 @@ package com.fg7.web;
 import com.fg7.domain.PurchaseOrder;
 import com.fg7.domain.PurchaseOrderWithCustomerInfo;
 import com.fg7.service.PurchaseOrderService;
-import com.fg7.utils.ContextCacheHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,6 @@ public class PurchaseOrderController {
     @GetMapping("/customer/{customerId}/order/{orderId}")
     public PurchaseOrderWithCustomerInfo getOrdersWithCustomerInfo(@PathVariable("orderId") Long orderId,
                                                                    @PathVariable("customerId") Long customerId) {
-        log.info("context cache : {}", ContextCacheHolder.getTLContext().getTokenId());
         return this.purchaseOrderService.getOrdersWithCustomerInfo(orderId, customerId);
     }
 

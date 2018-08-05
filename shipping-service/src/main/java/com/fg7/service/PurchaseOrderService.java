@@ -52,7 +52,7 @@ public class PurchaseOrderService {
             fallbackMethod = "getDefaultInfo",
             commandProperties = {
                     @HystrixProperty(name = "execution.isolation.strategy",  value = "THREAD"),
-//                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
                     @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "3" ),
                     @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "90" ),
                     @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")},
@@ -65,7 +65,7 @@ public class PurchaseOrderService {
     )
     public PurchaseOrderWithCustomerInfo getOrdersWithCustomerInfo(Long orderId, Long customerId) {
         simulateLongPoll();
-        log.info("Retrieving token: {} from shared context", ContextCacheHolder.getTLContext().getTokenId());
+        log.info(" *** Retrieving token: {} from shared context", ContextCacheHolder.getCache().getTokenID());
         PurchaseOrderWithCustomerInfo purchaseOrderWithCustomerInfo = getPurchaseOrderWithCustomerInfo(orderId, customerId);
         return purchaseOrderWithCustomerInfo;
     }

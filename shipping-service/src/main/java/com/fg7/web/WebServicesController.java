@@ -28,8 +28,15 @@ public class WebServicesController {
         return this.webServicesDiscoveryClient.getListOfAvailableServiceFromEureka();
     }
 
+    @GetMapping("/gimmeip/{serviceName}")
+    public String retrieveIP(@PathVariable("serviceName") String serviceName) {
+        return this.webServicesDiscoveryClient.getServiceIPaddress(serviceName);
+    }
+
     @GetMapping("/customer/{customerId}")
     public Customer getCustomerInfo(@PathVariable("customerId") Long customerId) {
         return this.customerFeignClient.getCustomerDeclaratively(customerId);
     }
+
+
 }

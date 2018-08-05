@@ -1,17 +1,19 @@
 package com.fg7.utils;
 
-public class ContextCache {
+import org.springframework.stereotype.Component;
 
-    private static final ThreadLocal<String> tokenIdTL = new ThreadLocal<>();
+@Component
+public final class ContextCache {
 
-    public static String getTokenId() {
-        return tokenIdTL.get();
+    private String tokenId = "";
+
+    public String getTokenID() {
+        return this.tokenId;
     }
 
-    public static void setTokenId(String value) {
-        tokenIdTL.set(value);
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
     }
-
 }
 
 
