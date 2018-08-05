@@ -16,3 +16,5 @@ spring:
         encrypt:
           enabled: false
       enabled: true
+
+

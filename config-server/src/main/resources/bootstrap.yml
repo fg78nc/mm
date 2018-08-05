@@ -1,5 +1,12 @@
 spring:
   application:
     name: config-server
+  cloud:
+    config:
+      server:
+        encrypt:
+          enabled: false
 server:
   port: 8888
+encrypt:
+  key: NOTSOSECRETKEY

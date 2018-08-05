@@ -9,3 +9,17 @@ spring:
       enabled: true
       allow-override: true
       profile: default
+  profiles:
+    active: default
+
+encrypt:
+  key: NOTSOSECRETKEY
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

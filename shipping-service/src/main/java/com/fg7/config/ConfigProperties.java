@@ -6,11 +6,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfigProperties {
 
-    @Value("${example.property}")
+    @Value("${example.property:'not-set'}")
     private String exampleProperty;
 
+    @Value("${secret.property:'not-set'}")
+    private String secretProperty;
+
     public String getExampleProperty() {
-        return exampleProperty;
+        return this.exampleProperty;
     }
+
+    public String getSecretProperty() {
+        return this.secretProperty;
+    }
+
+
 
 }

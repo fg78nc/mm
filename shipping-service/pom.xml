@@ -70,12 +70,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
@@ -91,25 +85,34 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.0</version>
         </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
+        <!--<version>1.4.5.RELEASE</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-rsa</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-hystrix</artifactId>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-hystrix</artifactId>-->
+        <!--<version>1.4.5.RELEASE</version>-->
+        <!--</dependency>-->
 
         <!--<dependency>-->
-        <!--<groupId>org.postgresql</groupId>-->
-        <!--<artifactId>postgresql</artifactId>-->
-        <!--<version>42.2.2</version>-->
+        <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+        <!--<artifactId>jackson-databind</artifactId>-->
+        <!--<version>2.9.4</version>-->
         <!--</dependency>-->
+
 
         <!--<dependency>-->
         <!--<groupId>org.springframework.cloud</groupId>-->
@@ -134,25 +137,25 @@
         <!--<version>1.0.9.RELEASE</version>-->
         <!--</dependency>-->
 
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.2.11</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>2.2.11</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>1.1.1</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>javax.xml.bind</groupId>-->
+        <!--<artifactId>jaxb-api</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>com.sun.xml.bind</groupId>-->
+        <!--<artifactId>jaxb-impl</artifactId>-->
+        <!--<version>2.2.11</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>com.sun.xml.bind</groupId>-->
+        <!--<artifactId>jaxb-core</artifactId>-->
+        <!--<version>2.2.11</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>javax.activation</groupId>-->
+        <!--<artifactId>activation</artifactId>-->
+        <!--<version>1.1.1</version>-->
+        <!--</dependency>-->
 
         <!--<dependency>-->
         <!--<groupId>postgresql</groupId>-->
@@ -162,16 +165,16 @@
 
     </dependencies>
 
-    <!--<repositories>-->
-    <!--<repository>-->
-    <!--<id>spring-milestones</id>-->
-    <!--<name>Spring Milestones</name>-->
-    <!--<url>https://repo.spring.io/libs-milestone</url>-->
-    <!--<snapshots>-->
-    <!--<enabled>false</enabled>-->
-    <!--</snapshots>-->
-    <!--</repository>-->
-    <!--</repositories>-->
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -185,7 +188,6 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <!-- here the phase you need -->
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
