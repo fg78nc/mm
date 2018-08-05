@@ -1,4 +1,4 @@
-package com.fg7.utils;
+package com.fg7.utils.hystrix;
 
 import com.netflix.hystrix.strategy.HystrixPlugins;
 import com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy;

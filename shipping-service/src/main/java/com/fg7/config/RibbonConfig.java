@@ -8,6 +8,7 @@ import com.netflix.loadbalancer.PingUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
+//@Configuration
 public class RibbonConfig {
 
     @Autowired

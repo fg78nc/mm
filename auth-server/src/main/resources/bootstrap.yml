@@ -1,0 +1,25 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: auth-server
+
+  cloud:
+    config:
+      enabled: true
+      allow-override: true
+      profile: default
+  profiles:
+    active: default
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+encrypt:
+  key: NOTSOSECRETKEY

@@ -2,15 +2,15 @@ package com.fg7;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.config.server.EnableConfigServer;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @SpringBootApplication
-@EnableConfigServer
+@EnableZuulProxy
 @RefreshScope
-public class ConfigApplication {
+public class ZuulServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ConfigApplication.class);
+        SpringApplication.run(ZuulServerApplication.class, args);
     }
 }

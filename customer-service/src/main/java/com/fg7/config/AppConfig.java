@@ -15,16 +15,15 @@ public class AppConfig {
 
     @Bean
     @LoadBalanced
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        final List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
-        if (interceptors.size() == 0 || interceptors == null) {
-            restTemplate.setInterceptors(Collections.singletonList(new ContextInterceptor()));
+    public RestTemplate restTemplate(){
+        RestTemplate template = new RestTemplate();
+        final List<ClientHttpRequestInterceptor> interceptors = template.getInterceptors();
+        if (interceptors.size() == 0 || interceptors == null){
+            template.setInterceptors(Collections.singletonList(new ContextInterceptor()));
         } else {
             interceptors.add(new ContextInterceptor());
-            restTemplate.setInterceptors(interceptors);
+            template.setInterceptors(interceptors);
         }
-        return restTemplate;
+        return template;
     }
-
 }

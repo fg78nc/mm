@@ -1,0 +1,62 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+zuul:
+  prefix: ${route.prefix}
+  strip-prefix: true
+  routes:
+    customers:
+      path: /cstm/**
+      serviceID: customer-service
+    customer-service: ${route.customer.service}
+    shipping-service: ${route.shipping.service}
+    static:
+      path: /static/**
+      url: http://host-static:8085
+  ignored-services: "*"
+  host:
+    max-total-connections: 100
+    max-per-route-connections: 10
+  ribbon-isolation-strategy: semaphore
+
+#ribbon:
+#  eureka:
+#    enabled: false
+#
+#static:
+#  ribbon:
+#    listOfServers: http://host-static:8085,http://host-static/8086
+
+management:
+  endpoint:
+    routes:
+      enabled: true
+    refresh:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+    shipping-service:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+shipping-service:
+  ribbob:
+    ReadTimeout: 4000

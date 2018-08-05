@@ -1,4 +1,4 @@
-package com.fg7.utils;
+package com.fg7.utils.context;
 
 import org.springframework.stereotype.Component;
 

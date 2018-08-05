@@ -1,5 +1,7 @@
-package com.fg7.utils;
+package com.fg7.utils.hystrix;
 
+import com.fg7.utils.context.ContextCache;
+import com.fg7.utils.context.ContextCacheHolder;
 import com.netflix.hystrix.HystrixThreadPoolKey;
 import com.netflix.hystrix.HystrixThreadPoolProperties;
 import com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy;
@@ -13,6 +15,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("Duplicates")
 @Slf4j
 public class EnrichedConcurrencyStrategy extends HystrixConcurrencyStrategy {
 

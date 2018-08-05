@@ -5,7 +5,7 @@ import com.fg7.domain.Customer;
 import com.fg7.domain.PurchaseOrder;
 import com.fg7.domain.PurchaseOrderWithCustomerInfo;
 import com.fg7.repository.PurchaseOrderRepository;
-import com.fg7.utils.ContextCacheHolder;
+import com.fg7.utils.context.ContextCacheHolder;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -64,7 +64,7 @@ public class PurchaseOrderService {
                     @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "10")}
     )
     public PurchaseOrderWithCustomerInfo getOrdersWithCustomerInfo(Long orderId, Long customerId) {
-        simulateLongPoll();
+//        simulateLongPoll();
         log.info(" *** Retrieving token: {} from shared context", ContextCacheHolder.getCache().getTokenID());
         PurchaseOrderWithCustomerInfo purchaseOrderWithCustomerInfo = getPurchaseOrderWithCustomerInfo(orderId, customerId);
         return purchaseOrderWithCustomerInfo;
