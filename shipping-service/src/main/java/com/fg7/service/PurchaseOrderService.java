@@ -5,17 +5,20 @@ import com.fg7.domain.Customer;
 import com.fg7.domain.PurchaseOrder;
 import com.fg7.domain.PurchaseOrderWithCustomerInfo;
 import com.fg7.repository.PurchaseOrderRepository;
+import com.fg7.utils.ContextCacheHolder;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import static com.fg7.resilency.CircuitBreakerConstants.*;
-
+@Slf4j
 @Service
+@DefaultProperties(commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000")})
 public class PurchaseOrderService {
 
     private final PurchaseOrderRepository purchaseOrderRepository;
@@ -38,7 +41,7 @@ public class PurchaseOrderService {
     public PurchaseOrder getOrderById(Long id) {
         return this.purchaseOrderRepository
                 .findById(id)
-                .orElseThrow(() -> new PurchaseOrderException("Order does not exist"));
+                .orElseThrow(() -> new PurchaseOrderException("Order: " + id + " is not found"));
     }
 
     public List<PurchaseOrder> getOrders() {
@@ -48,26 +51,25 @@ public class PurchaseOrderService {
     @HystrixCommand(
             fallbackMethod = "getDefaultInfo",
             commandProperties = {
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = ISOLATION_THREAD_TIMEOUT),
-                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = REQUEST_VOLUME_THRESHOLD),
-                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = ERROR_THRESHOLD_PERCENTAGE)},
+                    @HystrixProperty(name = "execution.isolation.strategy",  value = "THREAD"),
+//                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
+                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "3" ),
+                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "90" ),
+                    @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")},
             threadPoolKey = "purchaseOrderCustomerInfoPool",
             threadPoolProperties = {
-                    @HystrixProperty(name = "coreSize", value = NUMBER_OF_CORES),
-                    @HystrixProperty(name = "maxQueueSize", value = MAX_QUEUE_SIZE),
-                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value=ROLLING_STATS_TIME_MILLS),
-                    @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = ROLLING_STATS_NUMBER_OF_BUCKETS),
-                    @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = SLEEP_WINDOW_MILLS)}
+                    @HystrixProperty(name = "coreSize", value = "5"),
+                    @HystrixProperty(name = "maxQueueSize", value = "-1"),
+                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "10000" ),
+                    @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "10")}
     )
     public PurchaseOrderWithCustomerInfo getOrdersWithCustomerInfo(Long orderId, Long customerId) {
         simulateLongPoll();
-        Customer customer = this.customerServiceClient.getCustomer(customerId);
-        PurchaseOrderWithCustomerInfo purchaseOrderWithCustomerInfo = new PurchaseOrderWithCustomerInfo();
-        purchaseOrderWithCustomerInfo.setOrderedItem(this.getOrderById(orderId).getItem());
-        purchaseOrderWithCustomerInfo.setCustomerFirstName(customer.getFirstName());
-        purchaseOrderWithCustomerInfo.setCustomerLastName(customer.getLastName());
+        log.info("Retrieving token: {} from shared context", ContextCacheHolder.getTLContext().getTokenId());
+        PurchaseOrderWithCustomerInfo purchaseOrderWithCustomerInfo = getPurchaseOrderWithCustomerInfo(orderId, customerId);
         return purchaseOrderWithCustomerInfo;
     }
+
 
     @SuppressWarnings("unused")
     private PurchaseOrderWithCustomerInfo getDefaultInfo(Long orderId, Long customerId) {
@@ -78,15 +80,27 @@ public class PurchaseOrderService {
         return fallBackInfo;
     }
 
+    private PurchaseOrderWithCustomerInfo getPurchaseOrderWithCustomerInfo(Long orderId, Long customerId) {
+        Customer customer = this.customerServiceClient.getCustomer(customerId);
+        PurchaseOrderWithCustomerInfo purchaseOrderWithCustomerInfo = new PurchaseOrderWithCustomerInfo();
+        purchaseOrderWithCustomerInfo.setOrderedItem(this.getOrderById(orderId).getItem());
+        purchaseOrderWithCustomerInfo.setCustomerFirstName(customer.getFirstName());
+        purchaseOrderWithCustomerInfo.setCustomerLastName(customer.getLastName());
+        return purchaseOrderWithCustomerInfo;
+    }
+
     private void simulateLongPoll() {
         Random random = new Random();
-        if (random.nextInt(RANDOM_BOUNDARY) > 5) {
+        if (random.nextInt(10) > 5) {
             try {
-                TimeUnit.SECONDS.sleep(SIMULATED_SLEEP_TIME);
+                TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
     }
+
+
+
 
 }

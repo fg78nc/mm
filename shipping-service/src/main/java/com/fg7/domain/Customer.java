@@ -15,4 +15,13 @@ public class Customer implements Serializable {
     public String getLastName() {
         return lastName;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

@@ -1,9 +1,9 @@
 package com.fg7.web;
 
-import com.fg7.config.ConfigProperties;
 import com.fg7.domain.PurchaseOrder;
 import com.fg7.domain.PurchaseOrderWithCustomerInfo;
 import com.fg7.service.PurchaseOrderService;
+import com.fg7.utils.ContextCacheHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +18,16 @@ import java.util.List;
 @RequestMapping("v1/orders")
 public class PurchaseOrderController {
 
-    private final ConfigProperties configProperties;
     private final PurchaseOrderService purchaseOrderService;
 
-    public PurchaseOrderController(ConfigProperties configProperties, PurchaseOrderService purchaseOrderService) {
-        this.configProperties = configProperties;
+    public PurchaseOrderController(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
 
     @GetMapping("/customer/{customerId}/order/{orderId}")
     public PurchaseOrderWithCustomerInfo getOrdersWithCustomerInfo(@PathVariable("orderId") Long orderId,
                                                                    @PathVariable("customerId") Long customerId) {
+        log.info("context cache : {}", ContextCacheHolder.getTLContext().getTokenId());
         return this.purchaseOrderService.getOrdersWithCustomerInfo(orderId, customerId);
     }
 
