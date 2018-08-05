@@ -1,4 +1,4 @@
-package com.fg7.service;
+package com.fg7.client;
 
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DiscoveryClientService {
+public class WebServicesDiscoveryClient {
 
     private DiscoveryClient discoveryClient;
 
-    public DiscoveryClientService(DiscoveryClient discoveryClient) {
+    public WebServicesDiscoveryClient(DiscoveryClient discoveryClient) {
         this.discoveryClient = discoveryClient;
     }
 

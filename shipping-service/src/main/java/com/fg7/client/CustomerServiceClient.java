@@ -1,4 +1,4 @@
-package com.fg7.service;
+package com.fg7.client;
 
 import com.fg7.domain.Customer;
 import lombok.extern.slf4j.Slf4j;

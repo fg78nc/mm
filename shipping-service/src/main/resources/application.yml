@@ -47,4 +47,3 @@ management:
       exposure:
         include: "*"
       base-path: /act
-
