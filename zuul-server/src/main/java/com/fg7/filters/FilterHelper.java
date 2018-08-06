@@ -11,6 +11,7 @@ import java.util.Map;
 public class FilterHelper {
 
     public static final String TOKEN_ID = "x-mw-id";
+    public static final String AUTH_TOKEN = "Authorization";
 
     String getTokenId(){
         RequestContext requestContext = RequestContext.getCurrentContext();

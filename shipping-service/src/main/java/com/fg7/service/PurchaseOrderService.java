@@ -1,13 +1,13 @@
 package com.fg7.service;
 
 import com.fg7.client.CustomerServiceClient;
+import com.fg7.client.CustomerServiceRestTemplateClient;
 import com.fg7.domain.Customer;
 import com.fg7.domain.PurchaseOrder;
 import com.fg7.domain.PurchaseOrderWithCustomerInfo;
 import com.fg7.repository.PurchaseOrderRepository;
 import com.fg7.utils.context.ContextCacheHolder;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,11 +23,13 @@ public class PurchaseOrderService {
 
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final CustomerServiceClient customerServiceClient;
+    private final CustomerServiceRestTemplateClient customerServiceRestTemplateClient;
 
     public PurchaseOrderService(PurchaseOrderRepository purchaseOrderRepository,
-                                CustomerServiceClient customerServiceClient) {
+                                CustomerServiceClient customerServiceClient, CustomerServiceRestTemplateClient customerServiceRestTemplateClient) {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.customerServiceClient = customerServiceClient;
+        this.customerServiceRestTemplateClient = customerServiceRestTemplateClient;
     }
 
     public List<PurchaseOrder> getOrdersById(Long orderId) {
@@ -48,21 +50,21 @@ public class PurchaseOrderService {
         return (List<PurchaseOrder>) this.purchaseOrderRepository.findAll();
     }
 
-    @HystrixCommand(
-            fallbackMethod = "getDefaultInfo",
-            commandProperties = {
-                    @HystrixProperty(name = "execution.isolation.strategy",  value = "THREAD"),
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
-                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "3" ),
-                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "90" ),
-                    @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")},
-            threadPoolKey = "purchaseOrderCustomerInfoPool",
-            threadPoolProperties = {
-                    @HystrixProperty(name = "coreSize", value = "5"),
-                    @HystrixProperty(name = "maxQueueSize", value = "-1"),
-                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "10000" ),
-                    @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "10")}
-    )
+//    @HystrixCommand(
+//            fallbackMethod = "getDefaultInfo",
+//            commandProperties = {
+//                    @HystrixProperty(name = "execution.isolation.strategy",  value = "THREAD"),
+//                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000"),
+//                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "3" ),
+//                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "90" ),
+//                    @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")},
+//            threadPoolKey = "purchaseOrderCustomerInfoPool",
+//            threadPoolProperties = {
+//                    @HystrixProperty(name = "coreSize", value = "5"),
+//                    @HystrixProperty(name = "maxQueueSize", value = "-1"),
+//                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "10000" ),
+//                    @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "10")}
+//    )
     public PurchaseOrderWithCustomerInfo getOrdersWithCustomerInfo(Long orderId, Long customerId) {
 //        simulateLongPoll();
         log.info(" *** Retrieving token: {} from shared context", ContextCacheHolder.getCache().getTokenID());
@@ -81,7 +83,8 @@ public class PurchaseOrderService {
     }
 
     private PurchaseOrderWithCustomerInfo getPurchaseOrderWithCustomerInfo(Long orderId, Long customerId) {
-        Customer customer = this.customerServiceClient.getCustomer(customerId);
+//        Customer customer = this.customerServiceClient.getCustomer(customerId);
+        Customer customer = this.customerServiceRestTemplateClient.getCustomerInfo(customerId);
         PurchaseOrderWithCustomerInfo purchaseOrderWithCustomerInfo = new PurchaseOrderWithCustomerInfo();
         purchaseOrderWithCustomerInfo.setOrderedItem(this.getOrderById(orderId).getItem());
         purchaseOrderWithCustomerInfo.setCustomerFirstName(customer.getFirstName());

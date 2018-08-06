@@ -12,7 +12,7 @@ import java.io.IOException;
 @SuppressWarnings("Duplicates")
 @Slf4j
 @Component
-class ContextCacheFilter implements Filter {
+public class ContextCacheFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

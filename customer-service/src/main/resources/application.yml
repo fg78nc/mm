@@ -35,3 +35,7 @@ logging:
         type: TRACE
         SQL: DEBUG
 
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:9999/auth/userinfo

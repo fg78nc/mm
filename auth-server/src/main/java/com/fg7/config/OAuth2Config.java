@@ -1,5 +1,6 @@
 package com.fg7.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +15,8 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
     private UserDetailsService userDetailsService;
 
-    public OAuth2Config(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+    public OAuth2Config(AuthenticationManager authenticationManager,
+                        @Qualifier("userDetailsServiceBean") UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
     }

@@ -47,3 +47,10 @@ management:
       exposure:
         include: "*"
       base-path: /act
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:9999/auth/userinfo
+    client:
+      client-id: shipping-service
