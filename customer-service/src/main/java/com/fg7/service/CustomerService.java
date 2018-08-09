@@ -1,6 +1,7 @@
 package com.fg7.service;
 
 import com.fg7.domain.Customer;
+import com.fg7.events.event.CustomerChangedSourceBean;
 import com.fg7.repository.CustomerRepository;
 import com.fg7.utils.context.ContextCacheHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +13,12 @@ import java.util.List;
 @Slf4j
 public class CustomerService {
 
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+    private final CustomerChangedSourceBean customerChangedSourceBean;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, CustomerChangedSourceBean customerChangedSourceBean) {
         this.customerRepository = customerRepository;
+        this.customerChangedSourceBean = customerChangedSourceBean;
     }
 
 //    @HystrixCommand(threadPoolKey = "customer-service-pool")
@@ -27,5 +30,11 @@ public class CustomerService {
 
     public List<Customer> findAll() {
         return this.customerRepository.findAll();
+    }
+
+    public Customer save(Customer customer) {
+        Customer savedCustomer = this.customerRepository.saveAndFlush(customer);
+        this.customerChangedSourceBean.publishCustomerChangedEvent("PERSIST", savedCustomer.getId());
+        return savedCustomer;
     }
 }

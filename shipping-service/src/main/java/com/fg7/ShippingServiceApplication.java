@@ -1,6 +1,7 @@
 package com.fg7;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -11,6 +12,7 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
+@Slf4j
 @SpringBootApplication
 @RefreshScope
 @EnableEurekaClient
@@ -24,5 +26,6 @@ public class ShippingServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShippingServiceApplication.class);
     }
+
 
 }

@@ -28,6 +28,14 @@ spring:
     converters:
       preferred-json-mapper: jackson
 
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: customerChangedTopic
+          contentType: application/json
+          group: shippingServiceGroup
+
 logging:
   level:
     org:

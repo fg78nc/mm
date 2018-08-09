@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "CUSTOMER")
-@Access(AccessType.FIELD)
 public class Customer {
 
     public Customer() {
@@ -32,11 +31,11 @@ public class Customer {
     @Length(min = 2, max = 50)
     private String lastName;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         throw new RuntimeException("Unsupported operation");
     }
 

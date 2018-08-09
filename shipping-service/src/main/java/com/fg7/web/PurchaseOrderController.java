@@ -35,7 +35,7 @@ public class PurchaseOrderController {
         final PurchaseOrder newPurchaseOrder = this.purchaseOrderService.saveOrder(purchaseOrder);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
-                .path("orders/{id}")
+                .path("v1/orders/{id}")
                 .buildAndExpand(newPurchaseOrder.getOrderId())
                 .toUri();
         return ResponseEntity.created(location).build();

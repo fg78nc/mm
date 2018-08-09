@@ -5,14 +5,23 @@ import org.springframework.stereotype.Component;
 @Component
 public final class ContextCache {
 
-    private String tokenId = "";
+    private static final ThreadLocal<String> tokenId = new ThreadLocal<>();
+    private static final ThreadLocal<String> customerId = new ThreadLocal<>();
 
-    public String getTokenID() {
-        return this.tokenId;
+    public static String getCustomerId() {
+        return customerId.get();
     }
 
-    public void setTokenId(String tokenId) {
-        this.tokenId = tokenId;
+    public static void setCustomerId(String customerIdValue) {
+        customerId.set(customerIdValue);
+    }
+
+    public static String getTokenID() {
+        return tokenId.get();
+    }
+
+    public static void setTokenId(String tokenIdValue) {
+        tokenId.set(tokenIdValue);
     }
 }
 

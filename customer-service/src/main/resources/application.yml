@@ -24,9 +24,19 @@ spring:
     locations: classpath:/db/migration
     table: customer_flyway_history
     schemas: mw1
+
   http:
     converters:
       preferred-json-mapper: jackson
+
+  cloud:
+    stream:
+      bindings:
+        output:  # name of the channel
+          destination: customerChangedTopic  # name of the message queue
+          contentType: application/json
+          durableSubscription: true
+
 
 logging:
   level:
@@ -39,3 +49,4 @@ security:
   oauth2:
     resource:
       user-info-uri: http://localhost:9999/auth/userinfo
+

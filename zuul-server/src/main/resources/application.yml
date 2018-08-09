@@ -62,7 +62,7 @@ shipping-service:
   ribbob:
     ReadTimeout: 4000
 
-security:
-  oauth2:
-    resource:
-      user-info-uri: http://localhost:9999/auth/userinfo
+#security:
+#  oauth2:
+#    resource:
+#      user-info-uri: http://localhost:9999/auth/userinfo
