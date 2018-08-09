@@ -9,6 +9,8 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+
 @Slf4j
 @Component
 @EnableBinding(Source.class)
@@ -28,6 +30,7 @@ public class CustomerChangedSourceBean {
                 MessageBuilder
                         .withPayload(customerChangedEvent)
                         .setHeader("content_type", "application/json")
+                        .setHeader("timestamp", Instant.now())
                         .build();
         this.channel.send(message);
     }
