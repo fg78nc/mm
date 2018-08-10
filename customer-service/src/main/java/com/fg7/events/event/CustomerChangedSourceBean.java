@@ -3,23 +3,20 @@ package com.fg7.events.event;
 import com.fg7.utils.context.ContextCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-
 @Slf4j
 @Component
-@EnableBinding(Source.class)
+@EnableBinding(CustomerEventOutChannel.class)
 public class CustomerChangedSourceBean {
 
     private final MessageChannel channel;
 
-    public CustomerChangedSourceBean(Source source) {
-        this.channel = source.output();
+    public CustomerChangedSourceBean(CustomerEventOutChannel customerEventOutChannel) {
+        this.channel = customerEventOutChannel.customerOutChannel();
     }
 
     public void publishCustomerChangedEvent(String eventType, Long customerId){
@@ -30,7 +27,6 @@ public class CustomerChangedSourceBean {
                 MessageBuilder
                         .withPayload(customerChangedEvent)
                         .setHeader("content_type", "application/json")
-                        .setHeader("timestamp", Instant.now())
                         .build();
         this.channel.send(message);
     }

@@ -31,10 +31,11 @@ spring:
   cloud:
     stream:
       bindings:
-        input:
+        customerInEventChannel:
           destination: customerChangedTopic
           contentType: application/json
           group: shippingServiceGroup
+
   redis:
     host: localhost
     port: 6379
