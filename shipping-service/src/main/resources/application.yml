@@ -35,6 +35,9 @@ spring:
           destination: customerChangedTopic
           contentType: application/json
           group: shippingServiceGroup
+  redis:
+    host: localhost
+    port: 6379
 
 logging:
   level:
@@ -55,6 +58,9 @@ management:
       exposure:
         include: "*"
       base-path: /act
+#  health:
+#    redis:
+#      enabled: false
 
 security:
   oauth2:

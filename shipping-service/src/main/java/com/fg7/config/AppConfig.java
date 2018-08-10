@@ -36,4 +36,6 @@ public class AppConfig {
         return new OAuth2RestTemplate(oAuth2ProtectedResourceDetails, oAuth2ClientContext);
     }
 
+
+
 }
